@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wifi, Thermometer, Star, Coffee, Building2, Train } from "lucide-react";
 
 export interface CityData {
   rank: number;
+  slug: string;
   name: string;
   nameEn: string;
   image: string;
@@ -17,6 +19,21 @@ export interface CityData {
   coworkingCount: number;
   transport: "excellent" | "good" | "average" | "poor";
   tags?: string[];
+  // 상세 페이지용 추가 정보
+  description?: string;
+  longDescription?: string;
+  location?: {
+    country: string;
+    region: string;
+    coordinates?: { lat: number; lng: number };
+  };
+  images?: string[];
+  amenities?: {
+    wifi: string;
+    cafes: string;
+    coworking: string;
+    cost: string;
+  };
 }
 
 interface CityCardProps {
@@ -32,9 +49,10 @@ export function CityCard({ city }: CityCardProps) {
   };
 
   return (
-    <Card className="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
-      {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+    <Link href={`/cities/${city.slug}`}>
+      <Card className="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer">
+        {/* Image */}
+        <div className="relative aspect-[4/3] overflow-hidden">
         <Image
           src={city.image}
           alt={city.name}
@@ -107,5 +125,6 @@ export function CityCard({ city }: CityCardProps) {
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 }
