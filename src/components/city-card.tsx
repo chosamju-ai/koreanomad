@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Wifi, Thermometer, Star, Coffee, Building2, Train } from "lucide-react";
+import { Wifi, Thermometer, Star, Coffee, Building2, Train, ThumbsUp, ThumbsDown } from "lucide-react";
+import { useCityReactions } from "@/hooks/use-city-reactions";
 
 export interface CityData {
   rank: number;
@@ -18,6 +21,8 @@ export interface CityData {
   cafeCount: number;
   coworkingCount: number;
   transport: "excellent" | "good" | "average" | "poor";
+  likeCount: number;
+  dislikeCount: number;
   tags?: string[];
   // 상세 페이지용 추가 정보
   description?: string;
@@ -46,6 +51,21 @@ export function CityCard({ city }: CityCardProps) {
     good: "좋음",
     average: "보통",
     poor: "불편",
+  };
+
+  const { getReaction, toggleLike, toggleDislike, isLoaded } = useCityReactions();
+  const userReaction = isLoaded ? getReaction(city.slug) : null;
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleLike(city.slug);
+  };
+
+  const handleDislike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDislike(city.slug);
   };
 
   return (
@@ -117,11 +137,50 @@ export function CityCard({ city }: CityCardProps) {
           </div>
         </div>
 
-        {/* Review Count */}
-        <div className="mt-3 pt-3 border-t text-center">
-          <span className="text-xs text-muted-foreground">
-            {city.reviewCount}개의 리뷰
-          </span>
+        {/* Review Count and Reactions */}
+        <div className="mt-3 pt-3 border-t">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">
+              {city.reviewCount}개의 리뷰
+            </span>
+            <div className="flex items-center gap-2">
+              {/* Like Button */}
+              <button
+                onClick={handleLike}
+                className={`flex items-center gap-1 text-xs transition-colors ${
+                  userReaction === "like"
+                    ? "text-blue-600 font-medium"
+                    : "text-muted-foreground hover:text-blue-600"
+                }`}
+                aria-label="좋아요"
+              >
+                <ThumbsUp
+                  className={`h-3.5 w-3.5 ${
+                    userReaction === "like" ? "fill-blue-600" : ""
+                  }`}
+                />
+                <span>{city.likeCount.toLocaleString()}</span>
+              </button>
+
+              {/* Dislike Button */}
+              <button
+                onClick={handleDislike}
+                className={`flex items-center gap-1 text-xs transition-colors ${
+                  userReaction === "dislike"
+                    ? "text-red-600 font-medium"
+                    : "text-muted-foreground hover:text-red-600"
+                }`}
+                aria-label="싫어요"
+              >
+                <ThumbsDown
+                  className={`h-3.5 w-3.5 ${
+                    userReaction === "dislike" ? "fill-red-600" : ""
+                  }`}
+                />
+                <span>{city.dislikeCount.toLocaleString()}</span>
+              </button>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
