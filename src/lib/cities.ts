@@ -37,7 +37,7 @@ export const cities: CityData[] = [
     slug: "jeju-seogwipo",
     name: "제주 서귀포",
     nameEn: "Jeju, Seogwipo",
-    image: "https://images.unsplash.com/photo-1579169825453-7f5f4f3c3e3c?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1541417904950-b855846fe074?w=800&q=80",
     internetSpeed: 245,
     temperature: 15,
     monthlyCost: 1200000,
@@ -52,7 +52,7 @@ export const cities: CityData[] = [
     longDescription: "제주 서귀포는 아름다운 자연경관과 온화한 기후로 유명한 워케이션 최적지입니다. 해변과 오름, 폭포가 어우러진 환경에서 일과 휴식의 완벽한 균형을 찾을 수 있습니다.",
     location: { country: "대한민국", region: "제주특별자치도" },
     images: [
-      "https://images.unsplash.com/photo-1579169825453-7f5f4f3c3e3c?w=800&q=80",
+      "https://images.unsplash.com/photo-1541417904950-b855846fe074?w=800&q=80",
     ],
     amenities: {
       wifi: "평균 245Mbps의 안정적인 인터넷",
