@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { CityExplorer } from "@/components/city-explorer";
@@ -10,7 +11,9 @@ export default function HomePage() {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <CityExplorer />
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <CityExplorer />
+        </Suspense>
         <BottomCta />
       </main>
       <Footer />
